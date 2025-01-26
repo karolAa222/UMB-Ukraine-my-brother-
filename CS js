@@ -1,0 +1,67 @@
+// Konfiguracja cenowa tokenów
+const minPrice = 0.000001;
+const maxPrice = 0.00001;
+let walletAddress = null;
+
+// Kalkulacja ceny na podstawie ilości tokenów
+document.getElementById("tokenAmount").addEventListener("input", function () {
+    const amount = parseFloat(this.value) || 0;
+    const averagePrice = (minPrice + maxPrice) / 2;
+    document.getElementById("totalPrice").innerText = (amount * averagePrice).toFixed(8);
+});
+
+// Funkcja do podłączenia portfela Phantom lub Solflare
+async function connectWallet() {
+    if (window.solana) {
+        try {
+            const response = await window.solana.connect();
+            walletAddress = response.publicKey.toString();
+            document.getElementById("walletAddress").innerText = `Підключено: ${walletAddress}`;
+        } catch (error) {
+            console.error("Помилка підключення: ", error);
+        }
+    } else {
+        alert("Будь ласка, встановіть гаманець Phantom або Solflare.");
+    }
+}
+
+// Funkcja zakupu tokenów (wysyłanie transakcji)
+async function purchaseTokens() {
+    const tokenAmount = document.getElementById("tokenAmount").value;
+    if (!walletAddress) {
+        alert("Будь ласка, підключіть гаманець.");
+        return;
+    }
+    if (tokenAmount <= 0) {
+        alert("Введіть коректну кількість токенів.");
+        return;
+    }
+
+    // Tworzenie transakcji na blockchainie Solana
+    try {
+        const connection = new solanaWeb3.Connection(solanaWeb3.clusterApiUrl('mainnet-beta'), 'confirmed');
+        const fromWallet = new solanaWeb3.PublicKey(walletAddress);
+        const recipient = new solanaWeb3.PublicKey('REPLACE_WITH_UMB_WALLET_ADDRESS'); // Adres do wpłat
+
+        const transaction = new solanaWeb3.Transaction().add(
+            solanaWeb3.SystemProgram.transfer({
+                fromPubkey: fromWallet,
+                toPubkey: recipient,
+                lamports: solanaWeb3.LAMPORTS_PER_SOL * (tokenAmount * maxPrice) // Konwersja na SOL
+            })
+        );
+
+        const { blockhash } = await connection.getRecentBlockhash();
+        transaction.recentBlockhash = blockhash;
+        transaction.feePayer = fromWallet;
+
+        // Podpisywanie i wysyłanie transakcji
+        const signedTransaction = await window.solana.signTransaction(transaction);
+        const signature = await connection.sendRawTransaction(signedTransaction.serialize());
+
+        alert(`Транзакцію успішно відправлено! Tx ID: ${signature}`);
+    } catch (error) {
+        console.error("Помилка покупки: ", error);
+        alert("Помилка покупки. Спробуйте знову.");
+    }
+}
