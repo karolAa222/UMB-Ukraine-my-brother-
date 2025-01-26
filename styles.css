@@ -1,0 +1,46 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: linear-gradient(to right, #0057b7, #ffd700);
+    color: white;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.presale, .connect-wallet {
+    margin: 50px auto;
+    padding: 20px;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+}
+
+input, button {
+    padding: 10px;
+    font-size: 18px;
+    width: 80%;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #ff5722;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #e64a19;
+}
+
+footer {
+    margin-top: 50px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.7);
+}

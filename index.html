@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UMB Presale - Ukraine My Brother</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>UMB - Ukraine My Brother</h1>
+        <p>Україна, ти з нами, ти не загинеш. Польща та Україна – одна країна.</p>
+    </header>
+
+    <section class="connect-wallet">
+        <h2>Підключіть ваш криптогаманець</h2>
+        <button onclick="connectWallet()">Підключити гаманець Solana</button>
+        <p id="walletAddress">Гаманець не підключено</p>
+    </section>
+
+    <section class="presale">
+        <h2>Придбайте токени UMB</h2>
+        <input type="number" id="tokenAmount" placeholder="Введіть кількість токенів">
+        <p>Ціна за токен: $0.000001 - $0.00001 USD</p>
+        <p>Загальна ціна: <span id="totalPrice">0</span> USD</p>
+        <button onclick="purchaseTokens()">Підтвердити покупку</button>
+    </section>
+
+    <footer>
+        <p>Люблю і поважаю Київ, мою Батьківщину. Контакти: support@umbproject.io</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/solana-web3.js/1.76.0/solana-web3.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
